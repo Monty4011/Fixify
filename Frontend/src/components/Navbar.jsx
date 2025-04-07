@@ -89,8 +89,8 @@ function Navbar() {
     }
   };
 
-  const avatarLetters = user.fullname
-    ? user.fullname.slice(0, 2).toUpperCase()
+  const avatarLetters = user?.fullname
+    ? user?.fullname.slice(0, 2).toUpperCase()
     : "NA";
 
   return (
@@ -150,14 +150,14 @@ function Navbar() {
               <DropdownMenuContent className="bg-teal-600 text-white border-none shadow-lg mt-2 mr-2">
                 <DropdownMenuItem className="hover:bg-teal-700 focus:bg-teal-700 cursor-default">
                   <PersonStanding />
-                  {user.fullname
+                  {user?.fullname
                     .split(" ")
                     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
                     .join(" ")}
                 </DropdownMenuItem>
                 <DropdownMenuItem className="hover:bg-teal-700 focus:bg-teal-700 cursor-default">
                   <Phone />
-                  {user.phoneNumber || "N/A"}
+                  {user?.phoneNumber || "N/A"}
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
