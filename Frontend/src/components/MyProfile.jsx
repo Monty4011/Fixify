@@ -99,7 +99,7 @@ function MyProfile() {
   if (!worker) return <div className="text-center p-4">Loading...</div>;
 
   return (
-    <div className="h-[90vh] bg-gradient-to-br from-teal-500 to-purple-500 flex items-start py-24 justify-center p-4 gap-10">
+    <div className="h-screen sm:h-[90vh] bg-gradient-to-br from-teal-500 to-purple-500 flex flex-col sm:flex-row items-start sm:py-24 justify-start py-36 sm:justify-center px-4 sm:p-4 gap-10">
       <Button
         variant="outline"
         className="mb-4 bg-white/90 text-teal-600 hover:bg-teal-100 transition-all "
@@ -118,7 +118,7 @@ function MyProfile() {
             <div className="space-y-4">
               <div>
                 <p className="text-sm font-medium text-gray-700">Name</p>
-                <p className="text-lg">{user.fullname
+                <p className="text-lg">{user?.fullname
                           .split(" ")
                           .map(
                             (word) =>
@@ -128,17 +128,17 @@ function MyProfile() {
               </div>
               <div>
                 <p className="text-sm font-medium text-gray-700">Phone</p>
-                <p className="text-lg">{user.phoneNumber}</p>
+                <p className="text-lg">{user?.phoneNumber}</p>
               </div>
               <div>
                 <p className="text-sm font-medium text-gray-700">Services</p>
-                <p className="text-lg">{worker.service
+                <p className="text-lg">{worker?.service
                           .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
                           .join(", ")}</p>
               </div>
               <div>
                 <p className="text-sm font-medium text-gray-700">Location</p>
-                <p className="text-lg">{worker.location
+                <p className="text-lg">{worker?.location
                           .split(" ")
                           .map(
                             (word) =>
@@ -162,10 +162,10 @@ function MyProfile() {
                       Delete Profile
                     </Button>
                   </DialogTrigger>
-                  <DialogContent className="bg-white">
-                    <DialogHeader>
+                  <DialogContent className="bg-white w-3/4">
+                    <DialogHeader >
                       <DialogTitle>Confirm Deletion</DialogTitle>
-                      <DialogDescription>
+                      <DialogDescription >
                         Are you sure you want to delete your profile? This
                         action cannot be undone.
                       </DialogDescription>

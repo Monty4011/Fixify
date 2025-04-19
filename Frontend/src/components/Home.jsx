@@ -92,6 +92,7 @@ function Home() {
       toast.error("Failed to filter workers");
     }
   };
+
   const handleBack = () => {
     setIsSearching(false);
     setSearchService("");
@@ -99,10 +100,10 @@ function Home() {
     setSearchResults([]);
   };
   return (
-    <div className="h-[90vh] bg-gradient-to-br from-teal-500 to-purple-500">
+    <div className="h-screen sm:h-[90vh] bg-gradient-to-br from-teal-500 to-purple-500">
       {/* Search Section */}
       <section className="p-6 flex justify-center">
-        <div className="max-w-2xl w-full flex space-x-4">
+        <div className="w-3/4 sm:max-w-2xl sm:w-full flex space-x-4">
           <Input
             value={searchService}
             onChange={(e) => setSearchService(e.target.value)}
@@ -131,9 +132,9 @@ function Home() {
             <h2 className="text-2xl font-extrabold text-white text-center mb-2">
               Service Categories
             </h2>
-            <Carousel className="max-w-4xl mx-auto">
+            <Carousel className="w-3/4 sm:max-w-4xl mx-auto">
               <CarouselContent>
-                {services.map((service, index) => (
+                {services?.map((service, index) => (
                   <CarouselItem key={index} className="basis-1/3">
                     <Button
                       variant="outline"
@@ -141,7 +142,7 @@ function Home() {
                       onClick={() => setSearchService(service)}
                     >
                       {service
-                        .split(" ")
+                        ?.split(" ")
                         .map(
                           (word) => word.charAt(0).toUpperCase() + word.slice(1)
                         )
@@ -159,9 +160,9 @@ function Home() {
             <h2 className="text-2xl font-extrabold text-white text-center mb-2">
               Servicable Locations
             </h2>
-            <Carousel className="max-w-4xl mx-auto">
+            <Carousel className="w-3/4 sm:max-w-4xl mx-auto">
               <CarouselContent>
-                {locations.map((location, index) => (
+                {locations?.map((location, index) => (
                   <CarouselItem key={index} className="basis-1/3">
                     <Button
                       variant="outline"
@@ -169,7 +170,7 @@ function Home() {
                       onClick={() => setSearchLocation(location)}
                     >
                       {location
-                        .split(" ")
+                        ?.split(" ")
                         .map(
                           (word) => word.charAt(0).toUpperCase() + word.slice(1)
                         )
@@ -187,26 +188,26 @@ function Home() {
             <h2 className="text-2xl font-extrabold text-white text-center mb-2">
               Latest Workers
             </h2>
-            <Carousel className="max-w-5xl mx-auto">
+            <Carousel className="w-3/4 sm:max-w-5xl mx-auto">
               <CarouselContent>
-                {latestWorkers.map((worker) => (
-                  <CarouselItem key={worker._id} className="basis-1/3">
+                {latestWorkers?.map((worker) => (
+                  <CarouselItem key={worker?._id} className="sm:basis-1/3">
                     <Card className="bg-white/90 shadow-lg hover:shadow-xl transition-all h-64 w-full flex flex-col">
                       <CardHeader className="flex-shrink-0">
                         <CardTitle className="text-teal-600 text-xl truncate">
-                          {worker.userId.fullname}
+                          {worker?.userId?.fullname}
                         </CardTitle>
                       </CardHeader>
                       <CardContent className="flex-grow overflow-hidden">
                         <p className="text-gray-700 text-sm truncate">
                           <strong>Services:</strong>{" "}
-                          {worker.service
+                          {worker?.service
                             .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
                             .join(", ")}
                         </p>
                         <p className="text-gray-700 text-sm truncate">
                           <strong>Location:</strong>{" "}
-                          {worker.location
+                          {worker?.location
                             .split(" ")
                             .map(
                               (word) =>
@@ -215,7 +216,7 @@ function Home() {
                             .join(" ")}
                         </p>
                         <p className="text-gray-700 text-sm truncate">
-                          <strong>Phone:</strong> {worker.userId.phoneNumber}
+                          <strong>Phone:</strong> {worker?.userId?.phoneNumber}
                         </p>
                       </CardContent>
                       <CardFooter className="flex-shrink-0">
@@ -253,15 +254,15 @@ function Home() {
               Search Results
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {searchResults.length > 0 ? (
-                searchResults.map((worker) => (
+              {searchResults?.length > 0 ? (
+                searchResults?.map((worker) => (
                   <Card
-                    key={worker._id}
+                    key={worker?._id}
                     className="bg-white/90 shadow-lg hover:shadow-xl transition-all flex flex-col justify-between"
                   >
                     <CardHeader>
                       <CardTitle className="text-teal-600">
-                        {worker.userId.fullname
+                        {worker?.userId?.fullname
                           .split(" ")
                           .map(
                             (word) =>
@@ -273,13 +274,13 @@ function Home() {
                     <CardContent>
                       <p className="text-gray-700">
                         <strong>Services:</strong>{" "}
-                        {worker.service
+                        {worker?.service
                           .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
                           .join(", ")}
                       </p>
                       <p className="text-gray-700">
                         <strong>Location:</strong>{" "}
-                        {worker.location
+                        {worker?.location
                           .split(" ")
                           .map(
                             (word) =>
@@ -288,7 +289,7 @@ function Home() {
                           .join(" ")}
                       </p>
                       <p className="text-gray-700">
-                        <strong>Phone:</strong> {worker.userId.phoneNumber}
+                        <strong>Phone:</strong> {worker?.userId?.phoneNumber}
                       </p>
                     </CardContent>
                     <CardFooter>

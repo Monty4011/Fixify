@@ -43,7 +43,7 @@ function RegisterWorker() {
   };
 
   return (
-    <div className="h-[90vh] bg-gradient-to-br from-teal-500 to-purple-500 flex items-center justify-center p-4">
+    <div className="h-screen sm:h-[90vh] bg-gradient-to-br from-teal-500 to-purple-500 flex items-start sm:items-center justify-center px-4 py-36 sm:p-4">
       <Card className="w-full max-w-md bg-white/90 shadow-xl">
         <CardHeader>
           <CardTitle className="text-2xl font-extrabold text-center text-teal-600">
