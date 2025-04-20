@@ -50,7 +50,7 @@ function Home() {
         setServices(servicesRes.data.services || []);
         setLocations(locationsRes.data.locations || []);
         const filteredWorkers = (workersRes?.data?.workers || [])?.filter(
-          (worker) => worker?.userId?._id !== user?._id
+          (worker) => worker?.userId !== user?._id
         );
         setLatestWorkers(filteredWorkers.slice(0, 10));
       } catch (error) {
@@ -58,7 +58,7 @@ function Home() {
       }
     };
     fetchData();
-  }, [toast, user._id]);
+  }, [toast]);
 
   // Handle search
   const handleSearch = async () => {
@@ -71,7 +71,7 @@ function Home() {
         }
       );
       const filteredResults = (response?.data?.workers || [])?.filter(
-        (worker) => worker?.userId?._id !== user?._id
+        (worker) => worker?.userId !== user?._id
       );
       setSearchResults(filteredResults);
     } catch (err) {
