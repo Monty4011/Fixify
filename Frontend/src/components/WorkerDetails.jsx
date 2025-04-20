@@ -72,7 +72,7 @@ function WorkerDetails() {
           </div>
           <div>
             <p className="text-sm font-medium text-gray-700">Phone</p>
-            <p className="text-lg">{worker.userId.phoneNumber}</p>
+            <p className="text-lg">{worker?.userId?.phoneNumber}</p>
           </div>
           <div>
             <p className="text-sm font-medium text-gray-700">Services</p>

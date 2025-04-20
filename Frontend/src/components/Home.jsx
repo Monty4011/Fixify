@@ -49,7 +49,7 @@ function Home() {
         ]);
         setServices(servicesRes.data.services || []);
         setLocations(locationsRes.data.locations || []);
-        const filteredWorkers = (workersRes.data.workers || []).filter(
+        const filteredWorkers = (workersRes?.data?.workers || [])?.filter(
           (worker) => worker?.userId?._id !== user?._id
         );
         setLatestWorkers(filteredWorkers.slice(0, 10));
@@ -70,7 +70,7 @@ function Home() {
           params: { service: searchService, location: searchLocation },
         }
       );
-      const filteredResults = (response.data.workers || []).filter(
+      const filteredResults = (response?.data?.workers || [])?.filter(
         (worker) => worker?.userId?._id !== user?._id
       );
       setSearchResults(filteredResults);
