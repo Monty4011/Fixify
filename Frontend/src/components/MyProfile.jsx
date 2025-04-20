@@ -118,13 +118,12 @@ function MyProfile() {
             <div className="space-y-4">
               <div>
                 <p className="text-sm font-medium text-gray-700">Name</p>
-                <p className="text-lg">{user?.fullname
-                          .split(" ")
-                          .map(
-                            (word) =>
-                              word.charAt(0).toUpperCase() + word.slice(1)
-                          )
-                          .join(" ")}</p>
+                <p className="text-lg">
+                  {user?.fullname
+                    .split(" ")
+                    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                    .join(" ")}
+                </p>
               </div>
               <div>
                 <p className="text-sm font-medium text-gray-700">Phone</p>
@@ -132,19 +131,20 @@ function MyProfile() {
               </div>
               <div>
                 <p className="text-sm font-medium text-gray-700">Services</p>
-                <p className="text-lg">{worker?.service
-                          .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
-                          .join(", ")}</p>
+                <p className="text-lg">
+                  {worker?.service
+                    .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
+                    .join(", ")}
+                </p>
               </div>
               <div>
                 <p className="text-sm font-medium text-gray-700">Location</p>
-                <p className="text-lg">{worker?.location
-                          .split(" ")
-                          .map(
-                            (word) =>
-                              word.charAt(0).toUpperCase() + word.slice(1)
-                          )
-                          .join(" ")}</p>
+                <p className="text-lg">
+                  {worker?.location
+                    .split(" ")
+                    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                    .join(" ")}
+                </p>
               </div>
               <div className="flex space-x-4">
                 <Button
@@ -163,9 +163,9 @@ function MyProfile() {
                     </Button>
                   </DialogTrigger>
                   <DialogContent className="bg-white w-3/4">
-                    <DialogHeader >
+                    <DialogHeader>
                       <DialogTitle>Confirm Deletion</DialogTitle>
-                      <DialogDescription >
+                      <DialogDescription>
                         Are you sure you want to delete your profile? This
                         action cannot be undone.
                       </DialogDescription>

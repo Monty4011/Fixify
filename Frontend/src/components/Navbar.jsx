@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { Button } from "./ui/button";
-import { Hammer, Menu, PersonStanding } from "lucide-react"; // Icons
+import { Hammer, Menu, PersonStanding } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";

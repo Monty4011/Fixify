@@ -18,7 +18,7 @@ import {
   CarouselPrevious,
 } from "./ui/carousel";
 import axios from "axios";
-import { Outlet, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { ArrowLeft } from "lucide-react";
 import { useSelector } from "react-redux";
@@ -49,13 +49,16 @@ function Home() {
         ]);
         setServices(servicesRes.data.services || []);
         setLocations(locationsRes.data.locations || []);
-        setLatestWorkers(workersRes.data.workers.slice(0, 10) || []);
+        const filteredWorkers = (workersRes.data.workers || []).filter(
+          (worker) => worker?.userId?._id !== user?._id
+        );
+        setLatestWorkers(filteredWorkers.slice(0, 10));
       } catch (error) {
         toast.error("Failed to load data");
       }
     };
     fetchData();
-  }, [toast]);
+  }, [toast, user._id]);
 
   // Handle search
   const handleSearch = async () => {
@@ -67,31 +70,12 @@ function Home() {
           params: { service: searchService, location: searchLocation },
         }
       );
-      setSearchResults(response.data.workers || []);
+      const filteredResults = (response.data.workers || []).filter(
+        (worker) => worker?.userId?._id !== user?._id
+      );
+      setSearchResults(filteredResults);
     } catch (err) {
       setSearchResults([]);
-    }
-  };
-
-  // Handle carousel filter
-  const handleFilter = async (type, value) => {
-    setIsSearching(true);
-    if (type === "service") setSearchService(value);
-    if (type === "location") setSearchLocation(value);
-
-    try {
-      const response = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/api/v1/worker/get`,
-        {
-          params: {
-            service: type === "service" ? value : searchService,
-            location: type === "location" ? value : searchLocation,
-          },
-        }
-      );
-      setSearchResults(response.data.workers || []);
-    } catch (error) {
-      toast.error("Failed to filter workers");
     }
   };
 

@@ -6,29 +6,15 @@ import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "./ui/dialog";
-import { ScrollArea } from "./ui/scroll-area";
-import { Input } from "./ui/input";
 import { openChat } from "../redux/chatSlice.js";
 import { useDispatch } from "react-redux";
 
 function WorkerDetails() {
   const [worker, setWorker] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [messages, setMessages] = useState([]);
-  const [newMessage, setNewMessage] = useState("");
-  const [socket, setSocket] = useState(null);
-  const [isChatOpen, setIsChatOpen] = useState(false);
   const { id } = useParams(); // Get worker ID from URL
   const navigate = useNavigate();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   // Fetch worker details
   useEffect(() => {
@@ -77,7 +63,12 @@ function WorkerDetails() {
         <CardContent className="space-y-6">
           <div>
             <p className="text-sm font-medium text-gray-700">Name</p>
-            <p className="text-lg">{worker.userId.fullname}</p>
+            <p className="text-lg">
+              {worker?.userId?.fullname
+                .split(" ")
+                .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(" ")}
+            </p>
           </div>
           <div>
             <p className="text-sm font-medium text-gray-700">Phone</p>
@@ -85,11 +76,20 @@ function WorkerDetails() {
           </div>
           <div>
             <p className="text-sm font-medium text-gray-700">Services</p>
-            <p className="text-lg">{worker.service.join(", ")}</p>
+            <p className="text-lg">
+              {worker?.service
+                .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
+                .join(", ")}
+            </p>
           </div>
           <div>
             <p className="text-sm font-medium text-gray-700">Location</p>
-            <p className="text-lg">{worker.location}</p>
+            <p className="text-lg">
+              {worker?.location
+                .split(" ")
+                .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(" ")}
+            </p>
           </div>
           <div className="flex space-x-4">
             <Button
@@ -98,46 +98,6 @@ function WorkerDetails() {
             >
               Back to Home
             </Button>
-            {/* <Dialog open={isChatOpen} onOpenChange={setIsChatOpen}>
-              <DialogTrigger asChild>
-                <Button
-                  onClick={fetchMessages}
-                  className="w-full bg-teal-600 hover:bg-teal-700 text-white transition-transform transform hover:scale-105"
-                >
-                  Message
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="bg-white">
-                <DialogDescription className="hidden"></DialogDescription>
-                <DialogHeader>
-                  <DialogTitle>Chat with {worker.userId.fullname}</DialogTitle>
-                </DialogHeader>
-                <ScrollArea className="h-64 w-full border rounded-md p-4">
-                  {messages.map((msg, index) => (
-                    <div
-                      key={index}
-                      className={`mb-2 ${
-                        msg.senderId === id ? "text-left" : "text-right"
-                      }`}
-                    >
-                      <p className="text-sm text-gray-700">{msg.message}</p>
-                      <p className="text-xs text-gray-500">
-                        {new Date(msg.timestamp).toLocaleTimeString()}
-                      </p>
-                    </div>
-                  ))}
-                </ScrollArea>
-                <div className="flex space-x-2">
-                  <Input
-                    value={newMessage}
-                    onChange={(e) => setNewMessage(e.target.value)}
-                    placeholder="Type a message"
-                    className="flex-grow"
-                  />
-                  <Button onClick={handleSendMessage}>Send</Button>
-                </div>
-              </DialogContent>
-            </Dialog> */}
             <Button
               onClick={startChat}
               className="w-full bg-teal-600 hover:bg-teal-700 text-white transition-transform transform hover:scale-105"

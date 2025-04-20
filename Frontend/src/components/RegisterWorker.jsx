@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { ArrowLeft } from "lucide-react";
 
 function RegisterWorker() {
   const [services, setServices] = useState("");
@@ -43,7 +44,14 @@ function RegisterWorker() {
   };
 
   return (
-    <div className="h-screen sm:h-[90vh] bg-gradient-to-br from-teal-500 to-purple-500 flex items-start sm:items-center justify-center px-4 py-36 sm:p-4">
+    <div className="h-screen sm:h-[90vh] bg-gradient-to-br from-teal-500 to-purple-500 flex items-start sm: gap-10 sm:py-20 space-y-16 justify-center px-4 py-36 sm:p-4">
+      <Button
+        variant="outline"
+        className="mb-4 bg-white/90 text-teal-600 hover:bg-teal-100 transition-all"
+        onClick={() => navigate("/")}
+      >
+        <ArrowLeft className="w-5 h-5 mr-2" /> Back
+      </Button>
       <Card className="w-full max-w-md bg-white/90 shadow-xl">
         <CardHeader>
           <CardTitle className="text-2xl font-extrabold text-center text-teal-600">
