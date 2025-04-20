@@ -21,6 +21,7 @@ import axios from "axios";
 import { Outlet, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { ArrowLeft } from "lucide-react";
+import { useSelector } from "react-redux";
 
 function Home() {
   const [searchService, setSearchService] = useState("");
@@ -30,6 +31,7 @@ function Home() {
   const [latestWorkers, setLatestWorkers] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
+  const { user } = useSelector((store) => store.auth);
   const navigate = useNavigate();
 
   // Fetch initial data
@@ -190,47 +192,52 @@ function Home() {
             </h2>
             <Carousel className="w-3/4 sm:max-w-5xl mx-auto">
               <CarouselContent>
-                {latestWorkers?.map((worker) => (
-                  <CarouselItem key={worker?._id} className="sm:basis-1/3">
-                    <Card className="bg-white/90 shadow-lg hover:shadow-xl transition-all h-64 w-full flex flex-col">
-                      <CardHeader className="flex-shrink-0">
-                        <CardTitle className="text-teal-600 text-xl truncate">
-                          {worker?.userId?.fullname}
-                        </CardTitle>
-                      </CardHeader>
-                      <CardContent className="flex-grow overflow-hidden">
-                        <p className="text-gray-700 text-sm truncate">
-                          <strong>Services:</strong>{" "}
-                          {worker?.service
-                            .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
-                            .join(", ")}
-                        </p>
-                        <p className="text-gray-700 text-sm truncate">
-                          <strong>Location:</strong>{" "}
-                          {worker?.location
-                            .split(" ")
-                            .map(
-                              (word) =>
-                                word.charAt(0).toUpperCase() + word.slice(1)
-                            )
-                            .join(" ")}
-                        </p>
-                        <p className="text-gray-700 text-sm truncate">
-                          <strong>Phone:</strong> {worker?.userId?.phoneNumber}
-                        </p>
-                      </CardContent>
-                      <CardFooter className="flex-shrink-0">
-                        <Button
-                          variant="outline"
-                          className="w-full border-teal-500 text-teal-500 hover:bg-teal-100 text-sm"
-                          onClick={() => navigate(`/worker/${worker._id}`)}
-                        >
-                          View Details
-                        </Button>
-                      </CardFooter>
-                    </Card>
-                  </CarouselItem>
-                ))}
+                {latestWorkers
+                  ?.filter((worker) => worker?.userId !== user._id)
+                  .map((worker) => (
+                    <CarouselItem key={worker?._id} className="sm:basis-1/3">
+                      <Card className="bg-white/90 shadow-lg hover:shadow-xl transition-all h-64 w-full flex flex-col">
+                        <CardHeader className="flex-shrink-0">
+                          <CardTitle className="text-teal-600 text-xl truncate">
+                            {worker?.userId?.fullname}
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent className="flex-grow overflow-hidden">
+                          <p className="text-gray-700 text-sm truncate">
+                            <strong>Services:</strong>{" "}
+                            {worker?.service
+                              .map(
+                                (s) => s.charAt(0).toUpperCase() + s.slice(1)
+                              )
+                              .join(", ")}
+                          </p>
+                          <p className="text-gray-700 text-sm truncate">
+                            <strong>Location:</strong>{" "}
+                            {worker?.location
+                              .split(" ")
+                              .map(
+                                (word) =>
+                                  word.charAt(0).toUpperCase() + word.slice(1)
+                              )
+                              .join(" ")}
+                          </p>
+                          <p className="text-gray-700 text-sm truncate">
+                            <strong>Phone:</strong>{" "}
+                            {worker?.userId?.phoneNumber}
+                          </p>
+                        </CardContent>
+                        <CardFooter className="flex-shrink-0">
+                          <Button
+                            variant="outline"
+                            className="w-full border-teal-500 text-teal-500 hover:bg-teal-100 text-sm"
+                            onClick={() => navigate(`/worker/${worker._id}`)}
+                          >
+                            View Details
+                          </Button>
+                        </CardFooter>
+                      </Card>
+                    </CarouselItem>
+                  ))}
               </CarouselContent>
               <CarouselPrevious />
               <CarouselNext />
@@ -255,54 +262,56 @@ function Home() {
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {searchResults?.length > 0 ? (
-                searchResults?.map((worker) => (
-                  <Card
-                    key={worker?._id}
-                    className="bg-white/90 shadow-lg hover:shadow-xl transition-all flex flex-col justify-between"
-                  >
-                    <CardHeader>
-                      <CardTitle className="text-teal-600">
-                        {worker?.userId?.fullname
-                          .split(" ")
-                          .map(
-                            (word) =>
-                              word.charAt(0).toUpperCase() + word.slice(1)
-                          )
-                          .join(" ")}
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-gray-700">
-                        <strong>Services:</strong>{" "}
-                        {worker?.service
-                          .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
-                          .join(", ")}
-                      </p>
-                      <p className="text-gray-700">
-                        <strong>Location:</strong>{" "}
-                        {worker?.location
-                          .split(" ")
-                          .map(
-                            (word) =>
-                              word.charAt(0).toUpperCase() + word.slice(1)
-                          )
-                          .join(" ")}
-                      </p>
-                      <p className="text-gray-700">
-                        <strong>Phone:</strong> {worker?.userId?.phoneNumber}
-                      </p>
-                    </CardContent>
-                    <CardFooter>
-                      <Button
-                        variant="outline"
-                        className="w-full border-teal-500 text-teal-500 hover:bg-teal-100"
-                        onClick={() => navigate(`/worker/${worker._id}`)}
-                      >
-                        View Details
-                      </Button>
-                    </CardFooter>
-                  </Card>
-                ))
+                searchResults
+                  ?.filter((worker) => worker.userId !== user._id)
+                  .map((worker) => (
+                    <Card
+                      key={worker?._id}
+                      className="bg-white/90 shadow-lg hover:shadow-xl transition-all flex flex-col justify-between"
+                    >
+                      <CardHeader>
+                        <CardTitle className="text-teal-600">
+                          {worker?.userId?.fullname
+                            .split(" ")
+                            .map(
+                              (word) =>
+                                word.charAt(0).toUpperCase() + word.slice(1)
+                            )
+                            .join(" ")}
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <p className="text-gray-700">
+                          <strong>Services:</strong>{" "}
+                          {worker?.service
+                            .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
+                            .join(", ")}
+                        </p>
+                        <p className="text-gray-700">
+                          <strong>Location:</strong>{" "}
+                          {worker?.location
+                            .split(" ")
+                            .map(
+                              (word) =>
+                                word.charAt(0).toUpperCase() + word.slice(1)
+                            )
+                            .join(" ")}
+                        </p>
+                        <p className="text-gray-700">
+                          <strong>Phone:</strong> {worker?.userId?.phoneNumber}
+                        </p>
+                      </CardContent>
+                      <CardFooter>
+                        <Button
+                          variant="outline"
+                          className="w-full border-teal-500 text-teal-500 hover:bg-teal-100"
+                          onClick={() => navigate(`/worker/${worker._id}`)}
+                        >
+                          View Details
+                        </Button>
+                      </CardFooter>
+                    </Card>
+                  ))
               ) : (
                 <p className="text-white text-center col-span-full">
                   No workers found
